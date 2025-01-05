@@ -67,7 +67,7 @@ class EM24_Meter(device.CustomName, device.EnergyMeter):
         #         self.log.error('%s: failed to set application to H', self)
         #         return
 
-        #self.read_info()
+        self.read_info()
 
         phases = 1 #nr_phases[int(self.info['/PhaseConfig'])]
 
