@@ -72,11 +72,11 @@ class EM24_Meter(device.CustomName, device.EnergyMeter):
         phases = 1 #nr_phases[int(self.info['/PhaseConfig'])]
 
         regs = [
-            Reg_s32l(0x3004, '/Ac/Power',          10, '%.1f W'),
-            Reg_u16( 0x3042, '/Ac/Frequency',      10, '%.1f Hz'),
-            Reg_s32l(0x3008, '/Ac/Energy/Forward', 10, '%.1f kWh'),
-            Reg_u16( 0x3038, '/Ac/Current',        10, '%.1f A'),
-            Reg_u16( 0x3035, '/Ac/Voltage',        10, '%.1f V'),
+            Reg_s32l(3004, '/Ac/Power',          10, '%.1f W'),
+            Reg_u16( 3042, '/Ac/Frequency',      10, '%.1f Hz'),
+            Reg_s32l(3008, '/Ac/Energy/Forward', 10, '%.1f kWh'),
+            Reg_u16( 3038, '/Ac/Current',        10, '%.1f A'),
+            Reg_u16( 3035, '/Ac/Voltage',        10, '%.1f V'),
             #Reg_s32l(0x004e, '/Ac/Energy/Reverse', 10, '%.1f kWh'),
             #Reg_u16( 0xa100, '/SwitchPos', text=switch_positions),
         ]
