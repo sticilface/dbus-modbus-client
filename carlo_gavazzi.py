@@ -49,42 +49,45 @@ class EM24_Meter(device.CustomName, device.EnergyMeter):
 
     def device_init(self):
         self.info_regs = [
-            Reg_ver( 0x0302, '/HardwareVersion'),
-            Reg_ver( 0x0304, '/FirmwareVersion'),
-            Reg_u16( 0x1002, '/PhaseConfig', text=phase_configs, write=(0, 4)),
-            Reg_text(0x5000, 7, '/Serial'),
+            # Reg_ver( 0x0302, '/HardwareVersion'),
+            # Reg_ver( 0x0304, '/FirmwareVersion'),
+            # Reg_u16( 0x1002, '/PhaseConfig', text=phase_configs, write=(0, 4)),
+            # Reg_text(0x5000, 7, '/Serial'),
+            1, 1, 1, 1,
         ]
 
         # make sure application is set to H
-        appreg = Reg_u16(0xa000)
-        if self.read_register(appreg) != 7:
-            self.write_register(appreg, 7)
+        # appreg = Reg_u16(0xa000)
+        # if self.read_register(appreg) != 7:
+        #     self.write_register(appreg, 7)
 
-            # read back the value in case the setting is not accepted
-            # for some reason
-            if self.read_register(appreg) != 7:
-                self.log.error('%s: failed to set application to H', self)
-                return
+        #     # read back the value in case the setting is not accepted
+        #     # for some reason
+        #     if self.read_register(appreg) != 7:
+        #         self.log.error('%s: failed to set application to H', self)
+        #         return
 
-        self.read_info()
+        #self.read_info()
 
-        phases = nr_phases[int(self.info['/PhaseConfig'])]
+        phases = 1 #nr_phases[int(self.info['/PhaseConfig'])]
 
         regs = [
-            Reg_s32l(0x0028, '/Ac/Power',          10, '%.1f W'),
-            Reg_u16( 0x0033, '/Ac/Frequency',      10, '%.1f Hz'),
-            Reg_s32l(0x0034, '/Ac/Energy/Forward', 10, '%.1f kWh'),
-            Reg_s32l(0x004e, '/Ac/Energy/Reverse', 10, '%.1f kWh'),
-            Reg_u16( 0xa100, '/SwitchPos', text=switch_positions),
+            Reg_s32l(0x3004, '/Ac/Power',          10, '%.1f W'),
+            Reg_u16( 0x3042, '/Ac/Frequency',      10, '%.1f Hz'),
+            Reg_s32l(0x3008, '/Ac/Energy/Forward', 10, '%.1f kWh'),
+            Reg_u16( 0x3038, '/Ac/Current',        10, '%.1f A'),
+            Reg_u16( 0x3035, '/Ac/Voltage',        10, '%.1f V'),
+            #Reg_s32l(0x004e, '/Ac/Energy/Reverse', 10, '%.1f kWh'),
+            #Reg_u16( 0xa100, '/SwitchPos', text=switch_positions),
         ]
 
-        if phases == 3:
-            regs += [
-                Reg_mapu16(0x0032, '/PhaseSequence', { 0: 0, 0xffff: 1 }),
-            ]
+        # if phases == 3:
+        #     regs += [
+        #         Reg_mapu16(0x0032, '/PhaseSequence', { 0: 0, 0xffff: 1 }),
+        #     ]
 
-        for n in range(1, phases + 1):
-            regs += self.phase_regs(n)
+        # for n in range(1, phases + 1):
+        #     regs += self.phase_regs(n)
 
         self.data_regs = regs
         self.nr_phases = phases
