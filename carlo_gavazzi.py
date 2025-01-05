@@ -121,8 +121,12 @@ models = {
         'model':    'EM24DINAV53XE1PFB',
         'handler':  EM24_Meter,
     },
+    1654: {
+        'model':    'SOLIS',
+        'handler':  EM24_Meter,
+    },
 }
 
-probe.add_handler(probe.ModelRegister(Reg_u16(0x000b), models,
+probe.add_handler(probe.ModelRegister(1654, models,
                                       methods=['tcp'],
                                       units=[1]))
